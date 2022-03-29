@@ -1,0 +1,42 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  api-gateway:
+    image: api-gateway
+    build:
+      context: .
+      dockerfile: Ecoba.ApiGateway/Dockerfile
+    ports:
+      - 5001:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+
+  test-service:
+    image: test-service
+    container_name: test-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ServiceConfig__serviceDiscoveryAddress=http://consul:8500
+      - ServiceConfig__serviceAddress=http://test-service
+      - ServiceConfig__serviceName=test-service
+      - ServiceConfig__serviceId=101
+    build:
+      context: .
+      dockerfile: Ecoba.TestService/Dockerfile
+
+  consul:
+    container_name: consul
+    image: consul:latest
+    hostname: consul
+    ports:
+      - 5500:8500
+    command: consul agent -dev -log-level=warn -ui -client=0.0.0.0
+    environment:
+      - CONSUL_LOCAL_CONFIG={"server":true}
+  
+volumes:
+  pgdata:
