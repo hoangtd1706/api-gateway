@@ -4,14 +4,18 @@ using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Consul;
+using Ecoba.ApiGateway.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.ConfigureAppConfiguration(webHost => webHost.AddJsonFile(Path.Combine("ocelot.json"), false, true));
+builder.WebHost.ConfigureAppConfiguration(webHost => webHost.AddJsonFile(Path.Combine("ocelot.json"), false, true).AddEnvironmentVariables());
+
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddCors(options => options.AddDefaultPolicy(b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 }
+
+builder.Services.AddCors(options => options.AddDefaultPolicy(b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 builder.Services.AddOcelot().AddConsul().AddConfigStoredInConsul();
 
@@ -39,9 +43,11 @@ builder.Services.AddAuthentication(o =>
 var app = builder.Build();
 
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.UseCors();
+
 app.UseOcelot().Wait();
 
 app.MapGet("/", () => "Ecoba Api Gateway!");

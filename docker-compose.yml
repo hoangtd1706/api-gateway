@@ -10,3 +10,8 @@ services:
       dockerfile: Ecoba.ApiGateway/Dockerfile
     ports:
       - 80:80
+    environment:
+      - GlobalConfiguration__ServiceDiscoveryProvider__Host=192.168.0.172
+      - GlobalConfiguration__ServiceDiscoveryProvider__Port=8500
+      - GlobalConfiguration__ServiceDiscoveryProvider__ConfigurationKey=EMIS_OCELOT_CONFIGURATION_TEST
+      - GlobalConfiguration__ServiceDiscoveryProvider__Type=Consul

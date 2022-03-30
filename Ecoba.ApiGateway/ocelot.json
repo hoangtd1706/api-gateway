@@ -3,7 +3,7 @@
     "RequestIdKey": "OcRequestId",
     "AdministrationPath": "/administration",
     "ServiceDiscoveryProvider": {
-      "Host": "consul",
+      "Host": "192.168.0.172",
       "Port": 8500,
       "ConfigurationKey": "EMIS_OCELOT_CONFIGURATION",
       "Type": "Consul"
