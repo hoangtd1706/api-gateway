@@ -4,7 +4,6 @@ using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Consul;
-using Ecoba.ApiGateway.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +18,6 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(b => b.AllowAnyOrig
 
 builder.Services.AddOcelot().AddConsul().AddConfigStoredInConsul();
 
-//var authenticationProviderKey = "TestKey";
 builder.Services.AddAuthentication(o =>
 {
     o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

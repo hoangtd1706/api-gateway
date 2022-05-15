@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  ecobaApiGateway:
+    image: ecb-api-gateway
+    container_name: ecb-api-gateway
+    build:
+      context: .
+      dockerfile: Ecoba.TestService/Dockerfile
+    ports:
+      - 5001:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
