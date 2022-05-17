@@ -18,31 +18,11 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(b => b.AllowAnyOrig
 
 builder.Services.AddOcelot().AddConsul().AddConfigStoredInConsul();
 
-builder.Services.AddAuthentication(o =>
-{
-    o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
- {
-     options.RequireHttpsMetadata = false;
-     options.TokenValidationParameters = new TokenValidationParameters
-     {
-         ValidateIssuer = true,
-         ValidateAudience = true,
-         ValidateLifetime = true,
-         ValidateIssuerSigningKey = true,
-         ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
-         ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value,
-         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value)),
-     };
- });
-
 var app = builder.Build();
 
-app.UseAuthentication();
+// app.UseAuthentication();
 
-app.UseAuthorization();
+// app.UseAuthorization();
 
 app.UseCors();
 
